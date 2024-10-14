@@ -1,5 +1,6 @@
 import express from "express";
 import router_usuarios from "../routes/rutas_usuarios.js"
+import {dbConection} from "../database/config.js"
 
 class Server{
     constructor(){
@@ -7,8 +8,14 @@ class Server{
         this.port = process.env.PORT;
         this.usuarioPath = '/api/usuarios'
 
+
+        this.conectarDb();
         this.middlewares();
         this.routes();
+    }
+
+    async conectarDb(){
+        await dbConection()
     }
 
     routes(){
