@@ -31,7 +31,7 @@ class Server{
 
 
     listen(){
-        this.app.listen(this.port, ()=>console.log('Server online, port: ', this.port) )
+        this.app.listen(this.port, ()=>console.log(`Servidor levantado en el puerto http://localhost:${this.port}`) )
     }
 
 }
