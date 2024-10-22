@@ -1,12 +1,14 @@
 import express from "express";
 import router_usuarios from "../routes/rutas_usuarios.js"
 import {dbConection} from "../database/config.js"
+import { routerAuth } from "../routes/auth.js";
 
 class Server{
     constructor(){
         this.app = express()
         this.port = process.env.PORT;
         this.usuarioPath = '/api/usuarios'
+        this.authPath = '/api/path';
 
 
         this.conectarDb();
@@ -20,6 +22,7 @@ class Server{
 
     routes(){
         this.app.use(this.usuarioPath, router_usuarios)
+        this.app.use(this.authPath, routerAuth)
 
             }
 
