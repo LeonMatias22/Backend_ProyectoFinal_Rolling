@@ -1,6 +1,6 @@
 import {request, response} from 'express'
 import Modelo_Usuario from '../models/modelo_de_usuarios.js'
-import bcryptjs from 'bcryptjs'
+import bcrypt from 'bcryptjs'
 
 const getUsers = async (req = request, res = response)=>{
     const {limite = 5, desde= 0} = req.query
