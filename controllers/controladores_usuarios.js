@@ -1,11 +1,11 @@
 import {request, response} from 'express'
-import Modelo_Usuario from '../models/modelo_de_usuarios.js'
+import Usuario from '../models/modelo_de_usuarios.js'
 import bcrypt from 'bcryptjs'
 
 const getUsers = async (req = request, res = response)=>{
     const {limite = 5, desde= 0} = req.query
-    const todosLosUsuarios = await Modelo_Usuario.find({estado: true}).limit(limite).skip(desde);
-    const usuariosActivos = await Modelo_Usuario.countDocuments({estado:true});
+    const todosLosUsuarios = await Usuario.find({estado: true}).limit(limite).skip(desde);
+    const usuariosActivos = await Usuario.countDocuments({estado:true});
     res.json({
         usuariosActivos,
         todosLosUsuarios,
@@ -19,7 +19,7 @@ const postUser = async (req = request, res = response) =>{
 
 
 
-    const usuario = new Modelo_Usuario({nombre, email, password, rol})
+    const usuario = new Usuario({nombre, email, password, rol})
 
 
 
@@ -50,7 +50,7 @@ const putUser = async (req = request, res = response) =>{
      const salt = bcrypt.genSaltSync();
      resto.password = bcrypt.hashSync(password, salt);
 
-     const usuario = await Modelo_Usuario.findByIdAndUpdate(id, resto, {new: true});
+     const usuario = await Usuario.findByIdAndUpdate(id, resto, {new: true});
 
      res.status(200).json({
         message: "Usuario actualizado",
@@ -62,7 +62,7 @@ const putUser = async (req = request, res = response) =>{
 
 const deleteUser = async (req = request, res = response) =>{
     const {id} = req.params;
-    const usuarioBorrado = await Modelo_Usuario.findByIdAndUpdate(id, {estado: false}, {new: true})
+    const usuarioBorrado = await Usuario.findByIdAndUpdate(id, {estado: false}, {new: true})
 
     res.json({
         message: "Usuario Eliminado",
