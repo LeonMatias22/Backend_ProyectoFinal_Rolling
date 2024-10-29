@@ -1,5 +1,11 @@
 import express from "express";
+// import router from "../routes/router.js";
 import router_usuarios from "../routes/rutas_usuarios.js"
+import routerCat from "../routes/categorias.js";
+import routerProd from "../routes/rutas_productos.js";
+import routerSearch from "../routes/buscar.js";
+
+
 import {dbConection} from "../database/config.js"
 
 class Server{
@@ -7,7 +13,9 @@ class Server{
         this.app = express()
         this.port = process.env.PORT;
         this.usuarioPath = '/api/usuarios'
-
+        this.categoriaPath = '/api/categorias'
+        this.productoPath = '/api/productos'
+        this.buscarPath = '/api/buscar'
 
         this.conectarDb();
         this.middlewares();
@@ -20,7 +28,10 @@ class Server{
 
     routes(){
         this.app.use(this.usuarioPath, router_usuarios)
-
+        this.app.use(this.categoriaPath, routerCat)
+        this.app.use(this.productoPath, routerProd)
+        this.app.use(this.buscarPath, routerSearch)
+        
             }
 
 
