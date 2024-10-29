@@ -32,7 +32,7 @@ router_usuarios.put('/:id',[
     validarJWT,
     check("id", "No es un id valido").isMongoId(),
     check("id").custom(existeUsuarioPorId),
-    check("rol"). custom(rolValido),
+    //check("rol"). custom(rolValido),
     validarCampos,
 ], putUser);
 

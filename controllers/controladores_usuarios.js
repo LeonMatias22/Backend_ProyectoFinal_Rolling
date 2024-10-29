@@ -49,7 +49,7 @@ const putUser = async (req = request, res = response) =>{
     const {id} = req.params;
 
     const {password, _id, email, ...resto} = req.body;
-
+    console.log(resto);
      // Encriptar contraseña
 
      const salt = bcrypt.genSaltSync();
