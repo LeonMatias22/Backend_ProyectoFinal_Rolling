@@ -1,5 +1,4 @@
 import { Router } from "express";
-import {getUsers, postUser, putUser, deleteUser} from "../controllers/controladores_usuarios.js"
 import { check } from "express-validator";
 import { validarCampos } from "../middlewares/validar-campos.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
@@ -8,6 +7,7 @@ import {
     rolValido, 
     //emailExiste, 
     existeUsuarioPorId } from "../helpers/db-validators.js";
+import {getUsers, postUser, putUser, deleteUser} from "../controllers/controladores_usuarios.js"
 
 const router_usuarios = Router()
 
@@ -19,7 +19,7 @@ check("password", "La contraseña debe tener al menos 8 caracteres").isLength({m
 check("password", "La contraseña debe tener al menos 8 caracteres, mayúsculas, minúsculas y un simbolo").matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/),
 check("email", "El mail no es válido").isEmail(),
 //check("email").custom(emailExiste),
-check("rol").custom(rolValido),
+//check("rol").custom(rolValido),
 
 validarCampos,
 ],
