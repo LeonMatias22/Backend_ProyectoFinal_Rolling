@@ -15,7 +15,10 @@ const buscarCategorias = async (termino, res = response) => {
   const isMongoId = ObjectId.isValid(termino); //si el ID es valido de mongo nos va a devolver un true
 
   if (isMongoId) {
-    const categoria = await Categoria.findById(termino).populate("usuario", "nombre");
+    const categoria = await Categoria.findById(termino).populate(
+      "usuario",
+      "nombre"
+    );
     return res.json({
       result: categoria ? [categoria] : [],
     });
