@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 
 import router_usuarios from "../routes/rutas_usuarios.js";
 import  routerAuth  from '../routes/auth.js';
@@ -6,6 +7,8 @@ import routerCat from '../routes/categorias.js'
 import routerProd from "../routes/rutas_productos.js";
 import routerSearch from '../routes/buscar.js';
 import { dbConection } from "../database/config.js";
+
+
 
 class Server {
   constructor() {
@@ -36,6 +39,8 @@ class Server {
   }
 
   middlewares() {
+    this.app.use(cors());
+
     this.app.use(express.json());
     this.app.use(express.static("public"));
   }
