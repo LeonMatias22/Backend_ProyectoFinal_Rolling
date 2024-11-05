@@ -35,7 +35,7 @@ router.post('/',[
     check("email").custom(emailExiste),  
     check("rol").custom(esRolValido), 
     validarCampos,
-], postUser) //el segundo valor que recibe POST sera las validaciones(Como pueden ser varias validaciones, iran dentro de un array)
+], postUser) 
 
 
 router.put('/:id', 
