@@ -32,7 +32,7 @@ const ProductoSchema = Schema({
   },
   destacado: {
     type: Boolean,
-    default: true,
+    default: false,
   },
   img: {
     type: String,

@@ -35,7 +35,7 @@ const obtenerProducto = async (req = request, res = response) => {
 };
 
 const productoPost = async (req, res) => {
-  const { precio, categoria, descripcion, img, stock } = req.body;
+  const { precio, categoria, descripcion, destacado,img, stock } = req.body;
 
   const nombre = req.body.nombre.toUpperCase();
 
@@ -52,6 +52,7 @@ const productoPost = async (req, res) => {
     categoria,
     precio,
     descripcion,
+    destacado,
     img,
     stock,
     usuario: req.usuario._id, //cuando validemos el token nos va a devolver en la req los datos del usuario(de aqui obtenemos el ID del usuario)
@@ -71,7 +72,7 @@ const productoPost = async (req, res) => {
 
 const actualizarProducto = async (req, res) => {
   const { id } = req.params;
-  const { precio, categoria, descripcion, disponible, estado } = req.body;
+  const { precio, categoria, descripcion, disponible,destacado, estado } = req.body;
   const usuario = req.usuario._id;
 
   let data = {
@@ -79,6 +80,7 @@ const actualizarProducto = async (req, res) => {
     descripcion,
     categoria,
     disponible,
+    destacado,
     usuario,
     estado,
   };
