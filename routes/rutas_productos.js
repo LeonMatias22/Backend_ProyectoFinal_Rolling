@@ -17,13 +17,15 @@ import {
 
 const routerProd = Router(); 
 
-routerProd.get("/", [validarJWT], obtenerProductos);
+routerProd.get("/", 
+  // [validarJWT],
+   obtenerProductos);
 
 //Listar producto por id
 routerProd.get(
   "/:id",
   [
-    validarJWT,
+    // validarJWT,
     check("id", "El id no es válido").isMongoId(),
     check("id").custom(productoExiste),
     validarCampos,
