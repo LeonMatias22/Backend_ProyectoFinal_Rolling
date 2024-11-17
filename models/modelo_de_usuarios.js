@@ -36,7 +36,7 @@ const UsuarioSchema = new Schema({
   favoritos: [
     {
       type: Schema.Types.ObjectId,
-      ref: "modelo_Productos", // Asumiendo que el modelo de los modelo_Productos se llama 'Producto'
+      ref: "modelo_Productos", 
     },
   ],
 

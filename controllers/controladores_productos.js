@@ -3,8 +3,8 @@ import Producto from "../models/modelo_de_productos.js";
 
 //Get para traer todos los productos paginados
 const obtenerProductos = async (req = request, res = response) => {
-  const { limite = 5, desde = 0 } = req.query;
-  const query = { estado: true }; //para que solamente nos busque los productos que tenga esa query(que el estado sea true).
+  const { limite , desde = 0 } = req.query;
+  const query = { estado: true }; 
 
   const productos = await Producto.find(query)
     .skip(Number(desde))
@@ -22,7 +22,7 @@ const obtenerProductos = async (req = request, res = response) => {
 
 //obtener un producto por su ID
 const obtenerProducto = async (req = request, res = response) => {
-  //Este metodo es el que nos permitira traer todos los detalles del producto(para la pagina de detalle de producto)
+ 
   const { id } = req.params;
 
   const producto = await Producto.findById(id)
@@ -55,7 +55,7 @@ const productoPost = async (req, res) => {
     destacado,
     img,
     stock,
-    usuario: req.usuario._id, //cuando validemos el token nos va a devolver en la req los datos del usuario(de aqui obtenemos el ID del usuario)
+    usuario: req.usuario._id, 
   };
 
   const producto = new Producto(data);

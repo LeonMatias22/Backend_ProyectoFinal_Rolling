@@ -8,7 +8,7 @@ const login = async (req, res) => {
     //Verificar si el email existe en la base de datos
     const usuario = await Usuarios.findOne({ email });
     if (!usuario) {
-      //Si no encuentra a usuario me devolvera un undefined
+      
       return res.status(400).json({
         msg: "Correo / contraseña no son correctos",
       });
@@ -16,14 +16,14 @@ const login = async (req, res) => {
 
     //Verificar si el usuario esta activo
     if (!usuario.estado) {
-      //quiere decir que el estado es falso porque lo estoy negando
+      
       return res.status(400).json({
         msg: "Correo / contraseña no son correctos",
       });
     }
 
     //Verificar la contraseña
-    const validPassword = bcrypt.compareSync(password, usuario.password); //como primer valor pide el string(Osea el password que manda el usuario en formato string),y como sefundo valor
+    const validPassword = bcrypt.compareSync(password, usuario.password);
     if (!validPassword) {
       return res.status(400).json({
         msg: "Correo / contrasela no son correctos",

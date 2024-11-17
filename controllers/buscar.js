@@ -1,7 +1,7 @@
 import { response, request } from "express";
 import mongoose from "mongoose";
 
-const { ObjectId } = mongoose.Types; // Asegura que sea 'ObjectId' en mayúscula
+const { ObjectId } = mongoose.Types; 
 
 // Importar modelos
 import Categoria from "../models/categorias.js";
@@ -12,7 +12,7 @@ const coleccionesPermitidas = ["categorias", "productos"];
 
 // Función para buscar por categoría
 const buscarCategorias = async (termino, res = response) => {
-  const isMongoId = ObjectId.isValid(termino); //si el ID es valido de mongo nos va a devolver un true
+  const isMongoId = ObjectId.isValid(termino); 
 
   if (isMongoId) {
     const categoria = await Categoria.findById(termino).populate(

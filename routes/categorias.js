@@ -31,8 +31,8 @@ routerCat.post("/",
         [
             validarJWT,
             esAdminRole,
-            check("id", "No es un ID válido").isMongoId(),  // Valida el ID
-            check("nombre", "El nombre es obligatorio").notEmpty(), // Valida el campo nombre
+            check("id", "No es un ID válido").isMongoId(),  
+            check("nombre", "El nombre es obligatorio").notEmpty(), 
             validarCampos,
         ], 
         actualizarCategoria 
@@ -42,7 +42,7 @@ routerCat.post("/",
         [
             validarJWT,
             esAdminRole,
-            check("id", "No es un ID válido").isMongoId(), // Valida el ID
+            check("id", "No es un ID válido").isMongoId(), 
             validarCampos,
         ], 
         borrarCategoria
