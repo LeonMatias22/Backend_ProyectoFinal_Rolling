@@ -13,9 +13,9 @@ const routerCat = Router();
 
 
 routerCat.get("/",
-    [
-        validarJWT,
-    ],
+    // [
+    //     validarJWT,
+    // ],
     traerCategorias );
 
 routerCat.post("/", 
