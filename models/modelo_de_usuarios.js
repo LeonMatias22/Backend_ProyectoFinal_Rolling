@@ -1,9 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const UsuarioSchema = new Schema({
-  nombre: { type: String, 
-  required: [true, "El nombre es obligaorio"]
- },
+  nombre: { type: String, required: [true, "El nombre es obligaorio"] },
 
   email: {
     type: String,
@@ -33,17 +31,16 @@ const UsuarioSchema = new Schema({
     default: true,
   },
 
-  favoritos: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "modelo_Productos", 
-    },
-  ],
-
+  favoritos: [{ 
+    productoId: 
+    { type: Schema.Types.ObjectId,
+       ref: "Producto" 
+      }
+       }],
   carrito: [
     {
-      type: Schema.Types.ObjectId,
-      ref: "modelo_Productos",
+      productoId: { type: Schema.Types.ObjectId, ref: "Producto" },
+      cantidad: { type: Number, required: true },
     },
   ],
 });

@@ -50,21 +50,32 @@ const postUser = async (req = request, res = response) => {
 };
 
 const putUser = async (req = request, res = response) => {
+  try {
   const { id } = req.params;
-  const { password, _id, email, ...resto } = req.body;
-
+  const { password, _id, email, carrito, favoritos, ...resto } = req.body;
   if (password) {
-    const salt = bcrypt.genSaltSync();
-    resto.password = bcrypt.hashSync(password, salt);
+  const salt = bcrypt.genSaltSync();
+  resto.password = bcrypt.hashSync(password, salt);
   }
-
+  if (carrito && Array.isArray(carrito)) {
+  resto.carrito = carrito; }
+  if (favoritos && Array.isArray(favoritos)) {
+  resto.favoritos = favoritos;
+  }
   const usuario = await Usuario.findByIdAndUpdate(id, resto, { new: true });
-
   res.status(200).json({
-    message: "Usuario actualizado",
-    usuario,
+  message: "Usuario actualizado",
+  usuario,
   });
-};
+  } catch (error) {
+  console.error(error);
+  res.status(500).json({
+  message: "Error al actualizar el usuario",
+  error,
+  });
+  }
+  };
+
 
 const deleteUser = async (req = request, res = response) => {
   const { id } = req.params;
