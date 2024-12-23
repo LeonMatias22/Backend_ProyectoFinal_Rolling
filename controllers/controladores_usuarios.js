@@ -51,30 +51,55 @@ const postUser = async (req = request, res = response) => {
 
 const putUser = async (req = request, res = response) => {
   try {
-  const { id } = req.params;
-  const { password, _id, email, carrito, favoritos, ...resto } = req.body;
-  if (password) {
-  const salt = bcrypt.genSaltSync();
-  resto.password = bcrypt.hashSync(password, salt);
-  }
-  if (carrito && Array.isArray(carrito)) {
-  resto.carrito = carrito; }
-  if (favoritos && Array.isArray(favoritos)) {
-  resto.favoritos = favoritos;
-  }
-  const usuario = await Usuario.findByIdAndUpdate(id, resto, { new: true });
-  res.status(200).json({
-  message: "Usuario actualizado",
-  usuario,
-  });
+    const { id } = req.params;
+    const { password, _id, email, carrito, favoritos, eliminarFavorito, eliminarCarrito, ...resto } = req.body;
+    // Encriptar contraseña si está presente
+    if (password) {
+      const salt = bcrypt.genSaltSync();
+      resto.password = bcrypt.hashSync(password, salt);
+    }
+    // Construir el objeto de actualización
+    let update = { ...resto };
+    // Manejo de carrito: agregar o eliminar productos
+    if (carrito && Array.isArray(carrito)) {
+      update = {
+        ...update,
+        $push: { carrito: { $each: carrito } }, // Agregar productos al carrito
+      };
+    }
+    if (eliminarCarrito && Array.isArray(eliminarCarrito)) {
+      update = {
+        ...update,
+        $pull: { carrito: { productoId: { $in: eliminarCarrito.map((item) => item.productoId) } } }, // Eliminar productos del carrito
+      };
+    }
+    // Manejo de favoritos: agregar o eliminar productos
+    if (favoritos && Array.isArray(favoritos)) {
+      update = {
+        ...update,
+        $push: { favoritos: { $each: favoritos } }, // Agregar productos a favoritos
+      };
+    }
+    if (eliminarFavorito && Array.isArray(eliminarFavorito)) {
+      update = {
+        ...update,
+        $pull: { favoritos: { productoId: { $in: eliminarFavorito.map((item) => item.productoId) } } }, // Eliminar productos de favoritos
+      };
+    }
+    // Actualizar el usuario en la base de datos
+    const usuario = await Usuario.findByIdAndUpdate(id, update, { new: true });
+    res.status(200).json({
+      message: "Usuario actualizado",
+      usuario,
+    });
   } catch (error) {
-  console.error(error);
-  res.status(500).json({
-  message: "Error al actualizar el usuario",
-  error,
-  });
+    console.error(error);
+    res.status(500).json({
+      message: "Error al actualizar el usuario",
+      error,
+    });
   }
-  };
+};
 
 
 const deleteUser = async (req = request, res = response) => {
