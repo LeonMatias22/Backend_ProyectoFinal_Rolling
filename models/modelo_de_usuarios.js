@@ -36,7 +36,10 @@ const UsuarioSchema = new Schema({
     { type: Schema.Types.ObjectId,
        ref: "Producto" 
       },
- nombre:{type:String}     
+ nombre:{
+  type:String,
+  ref:"Producto"
+ }     
        }],
   carrito: [
     {
