@@ -1,48 +1,57 @@
 import Usuarios from "../models/modelo_de_usuarios.js";
 import bcrypt from "bcryptjs";
-import { generarJWT} from '../helpers/generar_jwt.js'
+import { generarJWT } from "../helpers/generar_jwt.js";
 
 const login = async (req, res) => {
   const { email, password } = req.body;
+
   try {
-    //Verificar si el email existe en la base de datos
-    const usuario = await Usuarios.findOne({ email });
+    // Buscar el usuario e incluir los datos de los productos referenciados
+    const usuario = await Usuarios.findOne({ email })
+      .populate("favoritos.productoId", "nombre precio img") // Incluye datos relevantes de los productos en favoritos
+      .populate("carrito.productoId", "nombre precio img");  // Incluye datos relevantes de los productos en el carrito
+
     if (!usuario) {
-      
       return res.status(400).json({
-        msg: "Correo / contraseña no son correctos",
+        msg: "Correo o contraseña incorrectos",
       });
     }
 
-    //Verificar si el usuario esta activo
+    // Verificar si el usuario está activo
     if (!usuario.estado) {
-      
       return res.status(400).json({
-        msg: "Correo / contraseña no son correctos",
+        msg: "El usuario está inactivo, contacte al administrador",
       });
     }
 
-    //Verificar la contraseña
+    // Verificar la contraseña
     const validPassword = bcrypt.compareSync(password, usuario.password);
     if (!validPassword) {
       return res.status(400).json({
-        msg: "Correo / contrasela no son correctos",
+        msg: "Correo o contraseña incorrectos",
       });
     }
 
-    //Genero el Token
-   const token = await generarJWT(usuario.id);
+    // Generar el Token
+    const token = await generarJWT(usuario.id);
 
-    res.status(202).json({
-      msg: "Login ok",
-      uid: usuario.id,
-      favoritos: usuario.favoritos,
-      carrito: usuario.carrito,
+    // Retornar datos esenciales del usuario con productos poblados
+    res.status(200).json({
+      msg: "Login exitoso",
+      usuario: {
+        uid: usuario.id,
+        nombre: usuario.nombre,
+        email: usuario.email,
+        rol: usuario.rol,
+        favoritos: usuario.favoritos, // Ya contiene los detalles de los productos
+        carrito: usuario.carrito,   // Ya contiene los detalles de los productos
+      },
       token,
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({
-      msg: "Comuniquese con el administrador",
+      msg: "Ocurrió un error en el servidor. Por favor, contacte al administrador.",
     });
   }
 };
