@@ -33,7 +33,8 @@ const UsuarioSchema = new Schema({
 
   favoritos: [{ 
     productoId: 
-    { type: Schema.Types.ObjectId,
+    { 
+      type: Schema.Types.ObjectId,
       
        ref: "Producto" 
       },

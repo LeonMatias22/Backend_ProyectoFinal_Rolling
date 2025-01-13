@@ -52,7 +52,16 @@ const postUser = async (req = request, res = response) => {
 const putUser = async (req = request, res = response) => {
   try {
     const { id } = req.params;
-    const { password, _id, email, carrito, favoritos, eliminarFavorito, eliminarCarrito, ...resto } = req.body;
+    const {
+      password,
+      _id,
+      email,
+      carrito,
+      favoritos,
+      eliminarFavorito, // Ahora esperará un arreglo de _id(s) de favoritos
+      eliminarCarrito,
+      ...resto
+    } = req.body;
     // Encriptar contraseña si está presente
     if (password) {
       const salt = bcrypt.genSaltSync();
@@ -83,7 +92,7 @@ const putUser = async (req = request, res = response) => {
     if (eliminarFavorito && Array.isArray(eliminarFavorito)) {
       update = {
         ...update,
-        $pull: { favoritos: { productoId: { $in: eliminarFavorito.map((item) => item.productoId) } } }, // Eliminar productos de favoritos
+        $pull: { favoritos: { _id: { $in: eliminarFavorito } } }, // Eliminar favoritos por _id
       };
     }
     // Actualizar el usuario en la base de datos

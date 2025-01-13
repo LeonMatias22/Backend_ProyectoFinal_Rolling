@@ -43,8 +43,8 @@ const login = async (req, res) => {
         nombre: usuario.nombre,
         email: usuario.email,
         rol: usuario.rol,
-        favoritos: usuario.favoritos, // Ya contiene los detalles de los productos
-        carrito: usuario.carrito,   // Ya contiene los detalles de los productos
+        favoritos: usuario.favoritos, 
+        carrito: usuario.carrito,   
       },
       token,
     });
