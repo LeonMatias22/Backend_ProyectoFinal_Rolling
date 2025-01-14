@@ -87,12 +87,14 @@ const putUser = async (req = request, res = response) => {
       update = {
         ...update,
         $push: { favoritos: { $each: favoritos } }, // Agregar productos a favoritos
-      };
+      };  
     }
     if (eliminarFavorito && Array.isArray(eliminarFavorito)) {
+      console.log(eliminarFavorito);
+      
       update = {
         ...update,
-        $pull: { favoritos: { _id: { $in: eliminarFavorito } } }, // Eliminar favoritos por _id
+        $pull: { favoritos: { productoId: { _id: { $in: eliminarFavorito } } } }, // Eliminar favoritos por _id dentro de productoId
       };
     }
     // Actualizar el usuario en la base de datos
