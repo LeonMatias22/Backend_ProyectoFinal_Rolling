@@ -1,6 +1,7 @@
 import { request, response } from "express";
 import Usuario from "../models/modelo_de_usuarios.js";
 import bcrypt from "bcryptjs";
+import mongoose from "mongoose";
 
 const getUsers = async (req = request, res = response) => {
   const { limite = 5, desde = 0 } = req.query;
@@ -94,7 +95,7 @@ const putUser = async (req = request, res = response) => {
       
       update = {
         ...update,
-        $pull: { favoritos: { productoId: { _id: { $in: eliminarFavorito } } } }, // Eliminar favoritos por _id dentro de productoId
+        $pull: { favoritos: { _id: { $in: eliminarFavorito.map((item) => new mongoose.Types.ObjectId(item)) } } }, // Eliminar favoritos por _id
       };
     }
     // Actualizar el usuario en la base de datos
