@@ -63,6 +63,7 @@ const putUser = async (req = request, res = response) => {
       eliminarCarrito,
       productoId,
       cantidad,
+      vaciarCarrito, // Nueva propiedad para vaciar el carrito
       ...resto
     } = req.body;
 
@@ -86,6 +87,14 @@ const putUser = async (req = request, res = response) => {
       update = {
         ...update,
         $pull: { carrito: { productoId: { $in: eliminarCarrito.map((item) => item.productoId) } } }, // Eliminar productos del carrito
+      };
+    }
+
+    // Vaciar el carrito
+    if (vaciarCarrito) {
+      update = {
+        ...update,
+        $set: { carrito: [] }, // Vaciar el carrito
       };
     }
 
