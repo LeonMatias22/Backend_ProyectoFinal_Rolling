@@ -1,10 +1,9 @@
 import { Router } from "express";
-import { check } from "express-validator"; 
+import { check } from "express-validator";
 
-import { validarCampos } from "../middlewares/validar-campos.js"; 
+import { validarCampos } from "../middlewares/validar-campos.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
-import { esAdminRole } from "../middlewares/validar-roles.js"; 
-
+import { esAdminRole } from "../middlewares/validar-roles.js";
 import { productoExiste } from "../helpers/db-validators.js";
 
 import {
@@ -13,19 +12,28 @@ import {
   obtenerProducto,
   actualizarProducto,
   borrarProducto,
+  obtenerProductosPorCategoria, // Importación de la nueva función
 } from "../controllers/controladores_productos.js";
 
-const routerProd = Router(); 
+const routerProd = Router();
 
-routerProd.get("/", 
-  // [validarJWT],
-   obtenerProductos);
+// Obtener todos los productos
+routerProd.get("/", obtenerProductos);
 
-//Listar producto por id
+// Obtener productos por categoría
+routerProd.get(
+  "/categoria/:id",
+  [
+    check("id", "El id de categoría no es válido").isMongoId(),
+    validarCampos,
+  ],
+  obtenerProductosPorCategoria
+);
+
+// Obtener un producto por su ID
 routerProd.get(
   "/:id",
   [
-    // validarJWT,
     check("id", "El id no es válido").isMongoId(),
     check("id").custom(productoExiste),
     validarCampos,
@@ -33,7 +41,7 @@ routerProd.get(
   obtenerProducto
 );
 
-//Agregar producto a la BD
+// Agregar un producto
 routerProd.post(
   "/",
   [
@@ -46,7 +54,7 @@ routerProd.post(
   productoPost
 );
 
-//Actualizar producto
+// Actualizar un producto
 routerProd.put(
   "/:id",
   [
@@ -59,7 +67,7 @@ routerProd.put(
   actualizarProducto
 );
 
-//Cambiar el estado del producto
+// Eliminar un producto (cambia su estado a inactivo)
 routerProd.delete(
   "/:id",
   [

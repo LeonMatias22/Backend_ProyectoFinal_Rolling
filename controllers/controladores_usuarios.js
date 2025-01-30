@@ -110,7 +110,7 @@ const putUser = async (req = request, res = response) => {
       
       update = {
         ...update,
-        $pull: { favoritos: { productoId: { $in: eliminarFavorito } } }, // Eliminar favoritos por productoId
+        $pull: { favoritos: { _id: { $in: eliminarFavorito.map((item) => new mongoose.Types.ObjectId(item)) } } }, // Eliminar favoritos por productoId
       };
     }
 

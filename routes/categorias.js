@@ -7,7 +7,8 @@ import {
      actualizarCategoria,
      agregarCategoria, 
      borrarCategoria, 
-     traerCategorias } from '../controllers/categorias.js';
+     traerCategorias,
+     } from '../controllers/categorias.js';
 
 const routerCat = Router();
 
@@ -17,7 +18,7 @@ routerCat.get("/",
     //     validarJWT,
     // ],
     traerCategorias );
-
+    
 routerCat.post("/", 
     [
         validarJWT,

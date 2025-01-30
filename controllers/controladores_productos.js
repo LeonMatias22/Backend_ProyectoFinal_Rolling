@@ -124,10 +124,40 @@ const borrarProducto = async (req, res) => {
   });
 };
 
+const obtenerProductosPorCategoria = async (req, res) => {
+  try {
+    const { id } = req.params; // ID de la categoría desde la URL
+    const { limite = 10, desde = 0 } = req.query;
+
+    const query = { categoria: id, estado: true };
+
+    const [productos, total] = await Promise.all([
+      Producto.find(query)
+        .skip(Number(desde))
+        .limit(Number(limite))
+        .populate("categoria", "nombre")
+        .populate("usuario", "email"),
+      Producto.countDocuments(query),
+    ]);
+
+    res.json({
+      total,
+      productos,
+    });
+  } catch (error) {
+    console.error("Error al obtener productos por categoría:", error);
+    res.status(500).json({
+      msg: "Error al obtener los productos de esta categoría",
+    });
+  }
+};
+
+
 export {
   productoPost,
   obtenerProductos,
   obtenerProducto,
   actualizarProducto,
   borrarProducto,
+  obtenerProductosPorCategoria,
 };
